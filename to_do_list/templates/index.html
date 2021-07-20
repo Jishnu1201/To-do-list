@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block body %}
+          <h4 class="display-4"><b>TO DO LIST</b></h4>
+          <p>
+            <table class="table table-striped">
+              <thead class="thead-dark">
+              <tr>
+                <th scope="col"> <a href="/?order_by=id&order={{order}}">#</a> </th>
+                <th scope="col"> <a href="/?order_by=task&order={{order}}">Task</a>  </th>
+                <th scope="col"> <a href="/?order_by=created&order={{order}}">Created</a>  </th>
+                <th scope="col"> <a href="/?order_by=due&order={{order}}">Due</a> </th>
+                <th scope="col"> <a href="/?order_by=status&order={{order}}">Status</a> </th>
+              </tr>
+              </thead>
+              {% for id, name, bought, sold, species in pets %}
+              <tr>              
+                <td scope="row" class="taskid" >{{id}}</td>
+                <td class="taskname">{{task}} </td>
+                <td class="taskcreated">{{created}}</td>
+                <td class="taskdue">{{due}}</td>
+                <td class="taskstatus">{{status}}</td>
+              </tr>
+              {%endfor%}
+            </table>
+          </p>
+{% endblock %}
