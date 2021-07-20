@@ -28,6 +28,7 @@ def init_db():
     cur.executescript(sql_code)
     cur.close()
     db.commit()
+    close_db()
 
 
 @click.command('initdb', help="initialise the database")

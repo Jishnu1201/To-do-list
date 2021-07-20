@@ -19,8 +19,8 @@ def create_app(test_config=None):
     except OSError:
         pass
     
-    from . import tasks
-    app.register_blueprint(tasks.bp)
+    #from . import tasks
+    #app.register_blueprint(tasks.bp)
 
     from . import db 
     db.init_app(app) 
