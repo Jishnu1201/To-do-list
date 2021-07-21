@@ -2,6 +2,9 @@
 {% block body %}
           <h4 class="display-4"><b>TO DO LIST</b></h4>
           <p>
+            <a class="btn btn-primary" href="{{url_for('tasks.add')}}">Add task</a>
+          </p>
+          <p>
             <table class="table table-striped">
               <thead class="thead-dark">
               <tr>
@@ -12,7 +15,7 @@
                 <th scope="col"> <a href="/?order_by=status&order={{order}}">Status</a> </th>
               </tr>
               </thead>
-              {% for id, name, bought, sold, species in pets %}
+              {% for id, task, created, due, status in tasks %}
               <tr>              
                 <td scope="row" class="taskid" >{{id}}</td>
                 <td class="taskname">{{task}} </td>

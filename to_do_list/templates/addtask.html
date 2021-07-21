@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block body %}
+<h1 class="display-1">ADD TASK</h1>
+<p>
+<form action="{{url_for('tasks.add')}}" method="POST">
+  <div class="mb-3">
+    <label for = "task" class="form-label">Task</label><br/>
+    <textarea rows="1" id="task" class="form-control"
+              name="task">
+      {{task}}
+    </textarea>
+
+    <br>
+    <label for="due">Scheduled (date and time):</label>
+    <input type="datetime-local" id="due" name="due">
+
+    <br>
+    <br>
+    <label for = "description" class="form-label">Description</label><br/>
+    <textarea rows="10" id="description" class="form-control"
+              name="description">
+      {{description}}
+    </textarea>
+  </div>
+
+
+  <div class="mb-3">
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
+
+</form>
+</p>
+{% endblock %}
