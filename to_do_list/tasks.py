@@ -61,18 +61,24 @@ def add():
 def task_info(tid): 
     conn = db.get_db()
     cursor = conn.cursor()
-    cursor.execute("select task, created, due, description, status from list WHERE id = ?", [tid])
-    task = cursor.fetchone()
-    taskname, created, due, description, status = task
-    if status == "Not completed":
-        status = None
-    data = dict(id = tid,
-                taskname = taskname,
-                created = created,#format_date(created),
-                due = due,#format_date(due),
-                description = description, 
-                status = status)
-    return render_template("taskdetail.html", **data)
+    if request.method == "GET":
+        cursor.execute("select task, created, due, description, status from list WHERE id = ?", [tid])
+        task = cursor.fetchone()
+        taskname, created, due, description, status = task
+        if status == "Not completed":
+            status = None
+        data = dict(id = tid,
+                    taskname = taskname,
+                    created = created,#format_date(created),
+                    due = due,#format_date(due),
+                    description = description, 
+                    status = status)
+        return render_template("taskdetail.html", **data)
+    
+    elif request.method == "POST":
+        cursor.execute("DELETE FROM list WHERE id = ?;", tid)
+        conn.commit()
+        return redirect(url_for("tasks.dashboard"), 302)
 
 @bp.route("/<tid>/edit", methods=["GET", "POST"])
 def edit(tid):
