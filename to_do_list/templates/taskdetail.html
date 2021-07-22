@@ -24,7 +24,14 @@
     </p>
 </div>
 <p>
-    <a class="btn btn-primary" href="{{url_for('tasks.add', tid=id)}}">Edit</a>
+    {%if status %}
+    {% else %}
+      
+      <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Completed</button>
+      </div>
+    {%endif%}
+    <a class="btn btn-primary" href="{{url_for('tasks.edit', tid=id)}}">Edit</a>
 </p>
 
 {% endblock %}

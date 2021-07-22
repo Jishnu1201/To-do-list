@@ -18,7 +18,11 @@
               {% for id, task, created, due, status in tasks %}
               <tr>              
                 <td scope="row" class="taskid" >{{id}}</td>
-                <td class="taskname"><a href="{{url_for('tasks.task_info', tid=id)}}" style = "text-decoration: none;">{{task}}</a></td>
+                <td class="taskname"><a href="{{url_for('tasks.task_info', tid=id)}}" 
+                  style = "text-decoration: none; color:black" 
+                  onmouseover="this.style.color='blue';" 
+                  onmouseout="this.style.color='black';">
+                  {{task}}</a></td>
                 <td class="taskcreated">{{created}}</td>
                 <td class="taskdue">{{due}}</td>
                 <td class="taskstatus">{{status}}</td>

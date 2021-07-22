@@ -57,7 +57,7 @@ def add():
       
         return redirect(url_for("tasks.dashboard"), 302)
         
-@bp.route("/<tid>")
+@bp.route("/<tid>", methods=["GET", "POST"])
 def task_info(tid): 
     conn = db.get_db()
     cursor = conn.cursor()
@@ -70,6 +70,37 @@ def task_info(tid):
                 taskname = taskname,
                 created = created,#format_date(created),
                 due = due,#format_date(due),
-                description = description, #TODO Not being displayed
+                description = description, 
                 status = status)
     return render_template("taskdetail.html", **data)
+
+@bp.route("/<tid>/edit", methods=["GET", "POST"])
+def edit(tid):
+    conn = db.get_db()
+    cursor = conn.cursor()
+    if request.method == "GET":
+        cursor.execute("select task, created, due, description, status from list WHERE id = ?", [tid])
+        task = cursor.fetchone()
+        taskname, created, due, description, status = task
+        data = dict(id = tid,
+                taskname = taskname,
+                created = created,#format_date(created),
+                due = due,#format_date(due),
+                description = description, 
+                status = status)
+        return render_template("edittask.html", **data)
+
+    elif request.method == "POST":
+        task = request.form.get("task")
+        due = request.form.get("due")
+        if (due != ""):
+            due = due.replace("T", "-")
+            due = due.split("-")
+            due = due[2] + "/" +  due[1] + "/" +  due[0] + " " + due[3]
+        description = request.form.get('description')
+        status = "Not completed"
+        cursor.execute("UPDATE list SET task = ?, description = ?  WHERE id = ?;",(task, description, tid))
+        if due != "":
+            cursor.execute("UPDATE list SET due = ? WHERE id = ?;",(due, tid))
+        conn.commit()
+        return redirect(url_for("tasks.dashboard"), 302)
