@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block body %}
+<h1 class="display-1" >Task details</h1>
+<p>
+  <h6 class="display-6">
+    <u class="name"style="text-decoration: none;">{{taskname}}</u>
+    <span class="species badge rounded-pill bg-secondary">{{species}}</span>
+  </h6>
+</p>
+<div style = "margin-left: 5em;">
+    <p>
+    <h6 class="created">
+        <span class="soldstatus badge rounded-pill bg-info" style="font-size: large;">Created on {{created}} </span>
+        {%if status %}</h6>
+    <span class="soldstatus badge rounded-pill bg-success">{{status}}</span>
+    {% else %}
+    <h6 class="due">
+        <span class="soldstatus badge rounded-pill bg-warning" style="font-size: large;">Due by {{due}}</span>
+    {%endif%}
+    </h6>
+    </p>
+    <p class = "description">
+    {{description}}
+    </p>
+</div>
+<p>
+    <a class="btn btn-primary" href="{{url_for('tasks.add', tid=id)}}">Edit</a>
+</p>
+
+{% endblock %}

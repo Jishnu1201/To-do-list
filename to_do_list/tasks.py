@@ -10,7 +10,7 @@ bp = Blueprint("tasks", "tasks", url_prefix="")
 
 def format_date(d):
     if d:
-        v = d.strftime('%Y-%m-%d %H:%M:%S')
+        v = d.strftime("%d/%m/%Y %H:%M")
         return v
     else:
         return None
@@ -45,6 +45,8 @@ def add():
         task = request.form.get("task")
         created = datetime.datetime.now().strftime("%d/%m/%Y %H:%M")
         due = request.form.get("due")
+        if(not task or not due ):
+            return redirect(url_for("tasks.dashboard"), 302)
         due = due.replace("T", "-")
         due = due.split("-")
         due = due[2] + "/" +  due[1] + "/" +  due[0] + " " + due[3]
@@ -55,3 +57,19 @@ def add():
       
         return redirect(url_for("tasks.dashboard"), 302)
         
+@bp.route("/<tid>")
+def task_info(tid): 
+    conn = db.get_db()
+    cursor = conn.cursor()
+    cursor.execute("select task, created, due, description, status from list WHERE id = ?", [tid])
+    task = cursor.fetchone()
+    taskname, created, due, description, status = task
+    if status == "Not completed":
+        status = None
+    data = dict(id = tid,
+                taskname = taskname,
+                created = created,#format_date(created),
+                due = due,#format_date(due),
+                description = description, #TODO Not being displayed
+                status = status)
+    return render_template("taskdetail.html", **data)

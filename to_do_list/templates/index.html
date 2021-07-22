@@ -18,7 +18,7 @@
               {% for id, task, created, due, status in tasks %}
               <tr>              
                 <td scope="row" class="taskid" >{{id}}</td>
-                <td class="taskname">{{task}} </td>
+                <td class="taskname"><a href="{{url_for('tasks.task_info', tid=id)}}" style = "text-decoration: none;">{{task}}</a></td>
                 <td class="taskcreated">{{created}}</td>
                 <td class="taskdue">{{due}}</td>
                 <td class="taskstatus">{{status}}</td>
