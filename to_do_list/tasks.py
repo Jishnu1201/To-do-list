@@ -19,14 +19,21 @@ def format_date(d):
 def dashboard():
     conn = db.get_db()
     cursor = conn.cursor()
-    oby = request.args.get("order_by", "id")  
+    oby = request.args.get("order_by", "due")  
     order = request.args.get("order", "asc")
     if order == "asc":
         cursor.execute(f"select id, task, created, due, status from list order by {oby}")
     else:
         cursor.execute(f"select id, task, created, due, status from list order by {oby} desc")
     tasks = cursor.fetchall()
-    return render_template('index.html', tasks = tasks, order="desc" if order=="asc" else "asc")
+    slno = 1
+    datas = []
+    for task in tasks:
+        id, taskname, created, due, status = task
+        data = (slno, id ,taskname ,created ,due ,status )
+        datas.append(data)
+        slno += 1
+    return render_template('index.html', tasks = tuple(datas), order="desc" if order=="asc" else "asc")
 
 
 @bp.route("/add", methods=["GET", "POST"])
@@ -51,21 +58,21 @@ def add():
         due = due.split("-")
         due = due[2] + "/" +  due[1] + "/" +  due[0] + " " + due[3]
         description = request.form.get('description')
-        status = "Not completed"
+        status = "Todo"
         cursor.execute("INSERT INTO list (task, created, due, description, status) values (?, ?, ?, ?, ?)", (task, created, due, description, status))
         conn.commit()
       
         return redirect(url_for("tasks.dashboard"), 302)
         
-@bp.route("/<tid>", methods=["GET", "POST"])
-def task_info(tid): 
+@bp.route("/<tid>/<action>", methods=["GET", "POST"])
+def task_info(tid, action): 
     conn = db.get_db()
     cursor = conn.cursor()
     if request.method == "GET":
         cursor.execute("select task, created, due, description, status from list WHERE id = ?", [tid])
         task = cursor.fetchone()
         taskname, created, due, description, status = task
-        if status == "Not completed":
+        if status == "Todo":
             status = None
         data = dict(id = tid,
                     taskname = taskname,
@@ -76,7 +83,17 @@ def task_info(tid):
         return render_template("taskdetail.html", **data)
     
     elif request.method == "POST":
-        cursor.execute("DELETE FROM list WHERE id = ?;", tid)
+        if action == "Delete":
+            cursor.execute("DELETE FROM list WHERE id = ?;", tid)
+        else:
+            status = "Complete"
+            if action == "Todo":
+                status = "In Progress"
+            elif action == "In Progress":
+                status = "Complete"
+            else:
+                status = "Todo"
+            cursor.execute("UPDATE list SET status = ? WHERE id = ?;",(status, tid))
         conn.commit()
         return redirect(url_for("tasks.dashboard"), 302)
 
@@ -104,7 +121,7 @@ def edit(tid):
             due = due.split("-")
             due = due[2] + "/" +  due[1] + "/" +  due[0] + " " + due[3]
         description = request.form.get('description')
-        status = "Not completed"
+        status = "Todo"
         cursor.execute("UPDATE list SET task = ?, description = ?  WHERE id = ?;",(task, description, tid))
         if due != "":
             cursor.execute("UPDATE list SET due = ? WHERE id = ?;",(due, tid))

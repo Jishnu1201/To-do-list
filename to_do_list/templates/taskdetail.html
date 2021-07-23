@@ -4,7 +4,6 @@
 <p>
   <h6 class="display-6">
     <u class="name"style="text-decoration: none;">{{taskname}}</u>
-    <span class="species badge rounded-pill bg-secondary">{{species}}</span>
   </h6>
 </p>
 <div style = "margin-left: 5em;">
@@ -24,14 +23,11 @@
     </p>
 </div>
 <p>
-    {%if status %}
-    {% else %}
-    <form action="{{url_for('tasks.task_info', tid=id)}}" method="POST">
+      <form action="{{url_for('tasks.task_info', tid=id, action = 'Delete')}}" method="POST">
         <div class="mb-3">
           <button type="submit" class="btn btn-primary">Delete</button>
         </div> 
       </form>
-    {%endif%}
     <a class="btn btn-primary" href="{{url_for('tasks.edit', tid=id)}}">Edit</a>
 </p>
 

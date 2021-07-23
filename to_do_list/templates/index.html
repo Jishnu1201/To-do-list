@@ -15,17 +15,37 @@
                 <th scope="col"> <a href="/?order_by=status&order={{order}}">Status</a> </th>
               </tr>
               </thead>
-              {% for id, task, created, due, status in tasks %}
+              {% for slno, id, task, created, due, status in tasks %}
               <tr>              
-                <td scope="row" class="taskid" >{{id}}</td>
-                <td class="taskname"><a href="{{url_for('tasks.task_info', tid=id)}}" 
+                <td scope="row" class="taskid" >{{slno}}</td>
+                <td class="taskname"><a href="{{url_for('tasks.task_info', tid=id, action = status)}}" 
                   style = "text-decoration: none; color:black" 
                   onmouseover="this.style.color='blue';" 
                   onmouseout="this.style.color='black';">
                   {{task}}</a></td>
                 <td class="taskcreated">{{created}}</td>
                 <td class="taskdue">{{due}}</td>
-                <td class="taskstatus">{{status}}</td>
+                {% if status == "In Progress" %}
+                  <td><form action="{{url_for('tasks.task_info', tid=id, action = status)}}" method="POST">
+                    <div class="mb-3">
+                      <button type="submit" style = "width:11em" class="btn btn-outline-warning btn-sm state">{{status}}</button>
+                    </div> 
+                  </form></td>
+                {%endif%}
+                {% if status == "Todo" %}
+                  <td><form action="{{url_for('tasks.task_info', tid=id, action = status)}}" method="POST">
+                    <div class="mb-3">
+                      <button type="submit" style = "width:11em" class="btn btn-outline-secondary btn-sm state">{{status}}</button>
+                    </div> 
+                  </form></td>
+                {%endif%}
+                {% if status == "Complete" %}
+                  <td><form action="{{url_for('tasks.task_info', tid=id, action = status)}}" method="POST">
+                    <div class="mb-3">
+                      <button type="submit" style = "width:11em" class="btn btn-outline-success btn-sm state">{{status}}</button>
+                    </div> 
+                  </form></td>
+                {%endif%}
               </tr>
               {%endfor%}
             </table>
