@@ -72,8 +72,6 @@ def task_info(tid, action):
         cursor.execute("select task, created, due, description, status from list WHERE id = ?", [tid])
         task = cursor.fetchone()
         taskname, created, due, description, status = task
-        if status == "Todo":
-            status = None
         data = dict(id = tid,
                     taskname = taskname,
                     created = created,#format_date(created),

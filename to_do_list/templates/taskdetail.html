@@ -4,18 +4,28 @@
 <p>
   <h6 class="display-6">
     <u class="name"style="text-decoration: none;">{{taskname}}</u>
+    {%if status == "Complete" %}
+      <span class="species badge rounded-pill bg-success">{{status}}</span>
+    {% endif %}
+    {%if status == "In Progress" %}
+      <span class="species badge rounded-pill bg-warning">{{status}}</span>
+    {% endif %}
+    {%if status == "Todo" %}
+      <span class="species badge rounded-pill bg-secondary">{{status}}</span>
+    {% endif %}
   </h6>
 </p>
 <div style = "margin-left: 5em;">
     <p>
     <h6 class="created">
         <span class="soldstatus badge rounded-pill bg-info" style="font-size: large;">Created on {{created}} </span>
-        {%if status %}</h6>
-    <span class="soldstatus badge rounded-pill bg-success">{{status}}</span>
-    {% else %}
-    <h6 class="due">
-        <span class="soldstatus badge rounded-pill bg-warning" style="font-size: large;">Due by {{due}}</span>
-    {%endif%}
+        
+        {%if status == "Complete" %}
+        {% else %}
+        <h6 class="due">
+            <span class="soldstatus badge rounded-pill bg-warning" style="font-size: large;">Due by {{due}}</span>
+        </h6>
+        {%endif%}
     </h6>
     </p>
     <p class = "description">
@@ -24,11 +34,10 @@
 </div>
 <p>
       <form action="{{url_for('tasks.task_info', tid=id, action = 'Delete')}}" method="POST">
-        <div class="mb-3">
-          <button type="submit" class="btn btn-primary">Delete</button>
-        </div> 
+          <button type="submit" class="btn btn-outline-danger" style="width:6em;" >Delete</button><br><br>
       </form>
-    <a class="btn btn-primary" href="{{url_for('tasks.edit', tid=id)}}">Edit</a>
+    <a class="btn btn-outline-warning" style="width:6em;" href="{{url_for('tasks.edit', tid=id)}}">Edit</a><br><br>
+    <a class="btn btn-outline-primary" style="width:6em;" href="{{url_for('tasks.dashboard', tid=id)}}">Back</a>
 </p>
 
 {% endblock %}

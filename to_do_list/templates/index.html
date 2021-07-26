@@ -8,16 +8,29 @@
             <table class="table table-striped">
               <thead class="thead-dark">
               <tr>
-                <th scope="col"> <a href="/?order_by=id&order={{order}}">#</a> </th>
-                <th scope="col"> <a href="/?order_by=task&order={{order}}">Task</a>  </th>
-                <th scope="col"> <a href="/?order_by=created&order={{order}}">Created</a>  </th>
-                <th scope="col"> <a href="/?order_by=due&order={{order}}">Due</a> </th>
-                <th scope="col"> <a href="/?order_by=status&order={{order}}">Status</a> </th>
+                <th scope="col"> <a href="/?order_by=id&order={{order}}" style = " font-size:large; text-decoration: none; color:black" 
+                  onmouseover="this.style.color='blue';" 
+                  onmouseout="this.style.color='black';">Slno</a> </th>
+                <th scope="col"> <a href="/?order_by=task&order={{order}}" style = " font-size:large; text-decoration: none; color:black" 
+                  onmouseover="this.style.color='blue';" 
+                  onmouseout="this.style.color='black';">Task</a>  </th>
+                <th scope="col"> <a href="/?order_by=created&order={{order}}" style = " font-size:large; text-decoration: none; color:black" 
+                  onmouseover="this.style.color='blue';" 
+                  onmouseout="this.style.color='black';">Created</a>  </th>
+                <th scope="col"> <a href="/?order_by=due&order={{order}}" style = " font-size:large; text-decoration: none; color:black" 
+                  onmouseover="this.style.color='blue';" 
+                  onmouseout="this.style.color='black';">Due</a> </th>
+                <th scope="col"> <a href="/?order_by=status&order={{order}}" style = " font-size:large; text-decoration: none; color:black" 
+                  onmouseover="this.style.color='blue';" 
+                  onmouseout="this.style.color='black';">Status</a> </th>
               </tr>
               </thead>
               {% for slno, id, task, created, due, status in tasks %}
               <tr>              
-                <td scope="row" class="taskid" >{{slno}}</td>
+                <td scope="row" class="taskid" ><a href="{{url_for('tasks.task_info', tid=id, action = status)}}" 
+                  style = "text-decoration: none; color:black" 
+                  onmouseover="this.style.color='blue';" 
+                  onmouseout="this.style.color='black';">{{slno}}</a></td>
                 <td class="taskname"><a href="{{url_for('tasks.task_info', tid=id, action = status)}}" 
                   style = "text-decoration: none; color:black" 
                   onmouseover="this.style.color='blue';" 
