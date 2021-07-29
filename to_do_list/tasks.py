@@ -15,6 +15,15 @@ def format_date(d):
     else:
         return None
 
+def format_date_back(d):
+    date1 = d.replace(" ","/")
+    date1 = date1.replace(":","")
+    date1 = date1.split("/")
+    date1 = date1[2] + date1[1] + date1[0] + date1[3]
+    date1 = int(date1)
+    return date1
+
+
 @bp.route("/")
 def dashboard():
     conn = db.get_db()
@@ -29,8 +38,14 @@ def dashboard():
     slno = 1
     datas = []
     for task in tasks:
+        overdue = 0
         id, taskname, created, due, status = task
-        data = (slno, id ,taskname ,created ,due ,status )
+        ldate = format_date_back(due)
+        pdate = datetime.datetime.now().strftime("%d/%m/%Y %H:%M")
+        pdate = format_date_back(pdate)
+        if(pdate > ldate):
+            overdue = 1
+        data = (slno, id ,taskname ,created ,due ,status, overdue )
         datas.append(data)
         slno += 1
     return render_template('index.html', tasks = tuple(datas), order="desc" if order=="asc" else "asc")

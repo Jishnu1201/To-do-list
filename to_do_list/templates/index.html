@@ -3,6 +3,7 @@
           <h4 class="display-4"><b>TO DO LIST</b></h4>
           <p>
             <a class="btn btn-primary" href="{{url_for('tasks.add')}}">Add task</a>
+              <span style="position: relative; margin-left: 4em;"> Click on the task to view more information </span>
           </p>
           <p>
             <table class="table table-striped">
@@ -23,9 +24,12 @@
                 <th scope="col"> <a href="/?order_by=status&order={{order}}" style = " font-size:large; text-decoration: none; color:black" 
                   onmouseover="this.style.color='blue';" 
                   onmouseout="this.style.color='black';">Status</a> </th>
+                <th scope="col"> <a href="/?order_by=due&order={{order}}" style = " font-size:large; text-decoration: none; color:black" 
+                  onmouseover="this.style.color='blue';" 
+                  onmouseout="this.style.color='black';">Overdue</a> </th>
               </tr>
               </thead>
-              {% for slno, id, task, created, due, status in tasks %}
+              {% for slno, id, task, created, due, status, overdue in tasks %}
               <tr>              
                 <td scope="row" class="taskid" ><a href="{{url_for('tasks.task_info', tid=id, action = status)}}" 
                   style = "text-decoration: none; color:black" 
@@ -58,6 +62,9 @@
                       <button type="submit" style = "width:11em" class="btn btn-outline-success btn-sm state">{{status}}</button>
                     </div> 
                   </form></td>
+                {%endif%}
+                {% if overdue == 1 %}
+                <td scope="row" class="taskid" style="text-align: center;"><img src="{{url_for('static', filename='warning1.png')}}" sizes="1em" /></td>
                 {%endif%}
               </tr>
               {%endfor%}
