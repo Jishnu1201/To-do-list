@@ -64,7 +64,9 @@
                   </form></td>
                 {%endif%}
                 {% if overdue == 1 %}
+                {% if status != "Complete" %}
                 <td scope="row" class="taskid" style="text-align: center;"><img src="{{url_for('static', filename='warning1.png')}}" sizes="1em" /></td>
+                {%endif%}
                 {%endif%}
               </tr>
               {%endfor%}
