@@ -10,20 +10,20 @@ at an overall agenda for the week.
 The repository contains a web app to manage a pet store. The following
 features are supported
 
-● Add task
-● Schedule tasks
-● Edit Tasks
-● Delete Tasks
-● Alert overdue tasks
-● Change the status of each tasks {Todo, In Progress, Complete}
-● Sorting tasks by various fields (clicking on the headers)
+1. Add task
+1. Schedule tasks
+1. Edit Tasks
+1. Delete Tasks
+1. Alert overdue tasks
+1. Change the status of each tasks {Todo, In Progress, Complete}
+1. Sorting tasks by various fields (clicking on the headers)
 
 # Setting up
 
-● Clone repository
-● Create a virtualenv and activate it
-● Install dependencies using `pip install -r requirements.txt`
-● Setup application using `python setup.py develop`
-● `export FLASK_APP=petshop` to set the application
-● `flask initdb` to create the initial database
-● `flask run` to start the app.
+1. Clone repository
+1. Create a virtualenv and activate it
+1. Install dependencies using `pip install -r requirements.txt`
+1. Setup application using `python setup.py develop`
+1. `export FLASK_APP=petshop` to set the application
+1. `flask initdb` to create the initial database
+1. `flask run` to start the app.
